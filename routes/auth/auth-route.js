@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const Workers = require("./auth-model");
+const Users = require("./auth-model");
 const generateToken = require('../../api/token')
 
 router.post("/register", (req, res) => {
-  let worker = req.body;
-  const hash = bcrypt.hashSync(worker.password, 10);
-  worker.password = hash;
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
 
-  Workers.add(worker)
+  Users.add(user)
     .then(saved => {
       res.status(201).json(saved);
     })
@@ -19,15 +19,15 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  let { worker_name, password } = req.body;
+  let { username, password } = req.body;
 
-  Workers.findBy({ worker_name })
+  Users.findBy({ username })
     .first()
-    .then(worker => {
-      const token = generateToken(worker);
-      if (worker && bcrypt.compareSync(password, worker.password)) {
+    .then(user => {
+      const token = generateToken(user);
+      if (user && bcrypt.compareSync(password, user.password)) {
         res.status(200).json({
-          mess: `welcome ${worker.worker_name}`,
+          mess: `welcome ${user.username}`,
           token,
         });
       } else {
