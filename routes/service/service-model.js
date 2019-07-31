@@ -8,21 +8,21 @@ module.exports = {
 };
 
 function find() {
-  return db("tips_ease_workers").select("id", "service_name");
+  return db("services").select("id", "service_type");
 }
 
-function findBy(filter) {
-  return db("tips_ease_workers").where(filter);
+function findBy(id) {
+  return db("services").where({id});
 }
 
-async function add(service) {
-  const [id] = await db("tips_ease_workers").insert(service);
+async function add(services) {
+  const [id] = await db("services").insert(services);
 
   return findById(id);
 }
 
 function findById(id) {
-  return db("tips_ease_workers")
+  return db("services")
     .where({ id })
     .first();
 }
