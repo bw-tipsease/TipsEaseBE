@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
         .onUpdate('CASCADE');
 
       workers.string("name", 255).notNullable();
-      workers.string("tagline", 255).notNullable();
+      workers.string("tagline", 255).notNullable().unique();
       workers.string("worker_info", 255).notNullable();
     });
   };
