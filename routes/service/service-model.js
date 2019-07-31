@@ -4,7 +4,8 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  findByName
 };
 
 function find() {
@@ -25,4 +26,9 @@ function findById(id) {
   return db("services")
     .where({ id })
     .first();
+}
+function findByName(service_type) {
+    return db("services")
+      .where({ service_type })
+      .first();
 }
