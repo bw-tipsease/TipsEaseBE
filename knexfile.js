@@ -37,19 +37,20 @@ module.exports = {
   },
 
   production: {
-    client: "postgresql",
+    client: "sqlite3",
+    useNullAsDefault: true,
     connection: {
-      database: "process.env.DATABASE_URL",
-      user:     "username",
-      password: "password"
+      filename: "./data/tips_ease_workers.sqlite3",
     },
     pool: {
-      min: 2,
-      max: 10
+      afterCreate: (conn, done) => {
+        conn.run("PRAGMA foreign_keys = ON", done);
+      },
     },
     migrations: {
-      tableName: "dbmigrations"
-    }
+      directory: "./data/migrations",
+      tableName: "dbmigrations",
+    },
   }
 
 };
